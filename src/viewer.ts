@@ -64,6 +64,8 @@ closerSidebar.addEventListener("click", () => {
   sidebar.classList.toggle("collapsed");
 });
 
+LoadIfc();
+
 async function LoadIfc() {
   const file = await fetch(
     "https://thatopen.github.io/engine_components/resources/small.ifc"
@@ -73,8 +75,11 @@ async function LoadIfc() {
   const buffer = new Uint8Array(data);
   const model = await fragmentIfcLoader.load(buffer);
   world.scene.three.add(model);
+  world.meshes.add(model);
 
   await createChart(model);
+  await clipping(world);
+  await indexer(model);
 }
 
 async function Classifier(model: any) {
@@ -102,12 +107,11 @@ async function Classifier(model: any) {
   return data; // [{ name , totalItems }]
 }
 
-LoadIfc();
-
 async function createChart(model: any) {
   const chart = document.createElement("canvas");
   chart.id = "chart";
-  sidebar.appendChild(chart);
+  const contentArea = document.getElementById("content-area") as HTMLDivElement;
+  contentArea.appendChild(chart);
 
   const classifierItems = await Classifier(model);
   const labels = classifierItems.map((item) => item.name);
@@ -135,10 +139,40 @@ async function createChart(model: any) {
       aspectRatio: 0.8,
       layout: {
         padding: {
-          top: 10,
+          top: 25,
           bottom: 10,
         },
       },
     },
   });
+}
+
+async function clipping(world: any) {
+  const casters = components.get(OBC.Raycasters);
+  casters.get(world);
+
+  let bool = false;
+
+  const toggleClipper = document.getElementById("clipper") as HTMLButtonElement;
+  toggleClipper.addEventListener("click", () => {
+    bool = bool ? false : true;
+    clipper.enabled = bool;
+    console.log(bool);
+  });
+
+  const clipper = components.get(OBC.Clipper);
+  container.ondblclick = () => {
+    clipper.create(world);
+    clipper.visible = true;
+  };
+}
+
+async function indexer(model: any) {
+  const indexer = components.get(OBC.IfcRelationsIndexer);
+  await indexer.process(model);
+
+  const psets = indexer.serializeModelRelations(model);
+  console.log(psets);
+  const exploder = components.get(OBC.Exploder);
+  exploder.set(true);
 }
