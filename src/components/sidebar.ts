@@ -1,3 +1,8 @@
+/**
+ * Sets up the sidebar toggle button functionally
+ * @param container The main container element
+ * @param sidebar The sidebar element
+ */
 export function setupSidebarToggle(
   container: HTMLDivElement,
   sidebar: HTMLDivElement

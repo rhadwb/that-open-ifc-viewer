@@ -96,12 +96,20 @@ button .material-icons {
 }
 
 #button-area button:hover {
-  background-color: #333;
+  background-color: #2563eb;
+  border-color: transparent;
   color: white;
 }
 
 #content-area {
-  /* background-color: green; */
   grid-row: 3;
   overflow-y: auto;
+}
+
+#content-area {
+  grid-row: 3;
+  overflow-y: auto;
+  margin: 15px;
+  border: 2px solid #333;
+  border-radius: 10px;
 }
