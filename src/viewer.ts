@@ -1,5 +1,5 @@
 import * as OBC from "@thatopen/components";
-import * as WEBIFC from "web-ifc";
+import * as OBCF from "@thatopen/components-front";
 import Chart from "chart.js/auto";
 import { colors } from "./utils/colors";
 
@@ -82,6 +82,7 @@ async function LoadIfc() {
     await setupClipper(world);
     await Indexer(model);
     await setupExploder(model);
+    await setupHighlighter(world);
 }
 
 async function Classifier(model: any) {
@@ -158,6 +159,10 @@ async function setupClipper(world: any) {
     toggleClipper.addEventListener("click", () => {
         isClippingEnabled = isClippingEnabled ? false : true;
         clipper.enabled = isClippingEnabled;
+
+        showPopup(
+            `Clipper is now ${isClippingEnabled ? "enabled" : "disabled"}`
+        );
     });
 
     const container = document.getElementById("container") as HTMLDivElement;
@@ -214,6 +219,10 @@ async function setupExploder(model: any) {
         exploder.enabled = isExploderEnabled;
         slider.style.display =
             slider.style.display === "none" ? "block" : "none";
+
+        showPopup(
+            `Exploder is now ${isExploderEnabled ? "enabled" : "disabled"}`
+        );
     });
 
     slider.addEventListener("change", () => {
@@ -228,4 +237,21 @@ async function setupExploder(model: any) {
     });
 
     document.body.appendChild(slider);
+}
+
+async function setupHighlighter(world: any) {
+    const highlighter = components.get(OBCF.Highlighter);
+    highlighter.setup({ world });
+    highlighter.zoomToSelection = true;
+
+    return highlighter;
+}
+
+function showPopup(message: any) {
+    const popup = document.getElementById("popup") as HTMLDivElement;
+    popup.textContent = message;
+    popup.classList.add("show");
+    setTimeout(() => {
+        popup.classList.remove("show");
+    }, 3500);
 }

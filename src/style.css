@@ -113,3 +113,21 @@ button .material-icons {
     border: 2px solid #333;
     border-radius: 10px;
 }
+
+.popup {
+    position: fixed;
+    bottom: 10px; /* Position at the bottom */
+    right: 10px; /* Position at the right edge */
+    background-color: #333; /* Dark background */
+    color: #fff; /* White text */
+    padding: 10px;
+    border-radius: 5px; /* Rounded corners */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
+    display: none; /* Hidden by default */
+    z-index: 1000;
+    font-size: 14px;
+}
+
+.popup.show {
+    display: block; /* Show when triggered */
+}
