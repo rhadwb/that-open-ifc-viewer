@@ -1,4 +1,5 @@
 import * as OBC from "@thatopen/components";
+import * as WEBIFC from "web-ifc";
 import Chart from "chart.js/auto";
 import { colors } from "./utils/colors";
 
@@ -29,7 +30,7 @@ world.scene.setup();
 
 world.scene.three.background = null;
 
-// const fragments = new OBC.FragmentsManager(components);
+const fragments = new OBC.FragmentsManager(components);
 const fragmentIfcLoader = new OBC.IfcLoader(components);
 
 await fragmentIfcLoader.setup();
@@ -78,31 +79,29 @@ async function LoadIfc() {
     world.meshes.add(model);
 
     await createChart(model);
-    await clipping(world);
-    await indexer(model);
+    await setupClipper(world);
+    await Indexer(model);
+    await setupExploder(model);
 }
 
 async function Classifier(model: any) {
     const classifier = new OBC.Classifier(components);
     classifier.byEntity(model);
     const entities = classifier.list.entities;
-    // console.log(entities);
 
     const data = [];
 
     for (const key in entities) {
-        // console.log(entities[key].map);
         const name = entities[key].name;
         const items = entities[key].map;
         let totalItems = 0;
         for (const key in items) {
             totalItems += items[key].size;
         }
-        // console.log(`${name} : ${totalItems}`);
 
         data.push({ name, totalItems });
     }
-    console.log(data);
+    // console.log(data);
 
     return data; // [{ name , totalItems }]
 }
@@ -149,7 +148,7 @@ async function createChart(model: any) {
     });
 }
 
-async function clipping(world: any) {
+async function setupClipper(world: any) {
     const clipper = components.get(OBC.Clipper);
     let isClippingEnabled = false;
 
@@ -159,7 +158,6 @@ async function clipping(world: any) {
     toggleClipper.addEventListener("click", () => {
         isClippingEnabled = isClippingEnabled ? false : true;
         clipper.enabled = isClippingEnabled;
-        console.log("Clipping enabled:", isClippingEnabled);
     });
 
     const container = document.getElementById("container") as HTMLDivElement;
@@ -168,7 +166,6 @@ async function clipping(world: any) {
             clipper.create(world);
             clipper.visible = true;
         }
-        console.log(isClippingEnabled);
     };
 
     window.onkeydown = (event) => {
@@ -180,12 +177,55 @@ async function clipping(world: any) {
     };
 }
 
-async function indexer(model: any) {
+async function Indexer(model: any) {
     const indexer = components.get(OBC.IfcRelationsIndexer);
-    await indexer.process(model);
+    const index = await indexer.process(model);
+    // console.log(index);
+}
 
-    const psets = indexer.serializeModelRelations(model);
-    console.log(psets);
+async function setupExploder(model: any) {
     const exploder = components.get(OBC.Exploder);
-    exploder.set(true);
+    let isExploderEnabled = false;
+
+    const classifier = components.get(OBC.Classifier);
+    await classifier.bySpatialStructure(model);
+
+    // Slider
+    const slider = document.createElement("input");
+    slider.className = "slider";
+    slider.type = "range";
+    slider.max = "20";
+    slider.value = exploder.height.toString();
+    slider.style.position = "fixed";
+    slider.style.bottom = "20px";
+    slider.style.left = "50%";
+    slider.style.transform = "translateX(-50%)";
+    slider.style.width = "300px";
+    slider.style.height = "20px";
+    slider.style.display = "none";
+
+    // Toggle Exploder
+    const toggleExploder = document.getElementById(
+        "exploder"
+    ) as HTMLButtonElement;
+    toggleExploder.addEventListener("click", () => {
+        isExploderEnabled = isExploderEnabled ? false : true;
+        exploder.set(isExploderEnabled);
+        exploder.enabled = isExploderEnabled;
+        slider.style.display =
+            slider.style.display === "none" ? "block" : "none";
+    });
+
+    slider.addEventListener("change", () => {
+        exploder.set(false);
+        exploder.dispose();
+        const newHeight = parseFloat(slider.value);
+        if (!isNaN(newHeight) && exploder.height !== newHeight) {
+            exploder.height = newHeight;
+            console.log("Exploder height set to:", exploder.height);
+        }
+        exploder.set(true);
+    });
+
+    document.body.appendChild(slider);
 }

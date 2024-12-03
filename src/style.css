@@ -1,115 +1,115 @@
 body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 #container {
-  width: 100vw;
-  height: 100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 #container,
 #sidebar {
-  height: 100vh;
-  overflow: hidden;
-  float: left;
-  transition: width 0.35s;
+    height: 100vh;
+    overflow: hidden;
+    float: left;
+    transition: width 0.35s;
 }
 
 #sidebar {
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  background-color: #f7f7f7;
-  width: 20rem;
-  transition: width 0.35s;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background-color: #f7f7f7;
+    width: 20rem;
+    transition: width 0.35s;
 }
 
 #sidebar.collapsed {
-  width: 0;
+    width: 0;
 }
 
 .container canvas {
-  position: absolute;
+    position: absolute;
 }
 
 .container button {
-  position: absolute;
+    position: absolute;
 }
 
 button {
-  width: 30px;
-  height: 30px;
-  background-color: transparent;
-  cursor: pointer;
-  border-radius: 50%;
-  border: 0;
-  margin: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 0;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button .material-icons {
-  font-size: 28px;
-  color: #333;
-  border: 0;
-  outline: 0;
+    font-size: 28px;
+    color: #333;
+    border: 0;
+    outline: 0;
 }
 
 .material-icons:hover {
-  color: #2563eb;
-  transition: 0.25s;
+    color: #2563eb;
+    transition: 0.25s;
 }
 
 #closer {
-  float: left;
+    float: left;
 }
 
 #header {
-  /* background-color: red; */
-  grid-row: 1;
+    /* background-color: red; */
+    grid-row: 1;
 }
 
 #button-area {
-  grid-row: 2;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 5px 15px 15px 15px;
-  gap: 10px;
-  column-gap: px;
-  align-content: flex-end;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 5px 15px 15px 15px;
+    gap: 10px;
+    column-gap: px;
+    align-content: flex-end;
 }
 
 #button-area button {
-  background-color: transparent;
-  color: #333;
-  border: 2px solid #333;
-  padding: 18px 65px;
-  cursor: pointer;
-  border-radius: 10px;
-  margin: 0;
+    background-color: transparent;
+    color: #333;
+    border: 2px solid #333;
+    padding: 18px 65px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 0;
 }
 
 #button-area button:hover {
-  background-color: #2563eb;
-  border-color: transparent;
-  color: white;
+    background-color: #2563eb;
+    border-color: transparent;
+    color: white;
 }
 
 #content-area {
-  grid-row: 3;
-  overflow-y: auto;
+    grid-row: 3;
+    overflow-y: auto;
 }
 
 #content-area {
-  grid-row: 3;
-  overflow-y: auto;
-  margin: 15px;
-  border: 2px solid #333;
-  border-radius: 10px;
+    grid-row: 3;
+    overflow-y: auto;
+    margin: 15px;
+    border: 2px solid #333;
+    border-radius: 10px;
 }
