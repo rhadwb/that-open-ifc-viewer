@@ -1,5 +1,6 @@
 import * as OBC from "@thatopen/components";
 import * as OBCF from "@thatopen/components-front";
+import * as THREE from "three";
 import Chart from "chart.js/auto";
 import { colors } from "./utils/colors";
 
@@ -76,13 +77,17 @@ async function LoadIfc() {
     const buffer = new Uint8Array(data);
     const model = await fragmentIfcLoader.load(buffer);
     world.scene.three.add(model);
-    world.meshes.add(model);
+    for (const child of model.children) {
+        if (child instanceof THREE.Mesh) {
+            world.meshes.add(child);
+        }
+    }
 
     await createChart(model);
     await setupClipper(world);
     await Indexer(model);
     await setupExploder(model);
-    await setupHighlighter(world);
+    // await setupHighlighter(world);
 }
 
 async function Classifier(model: any) {
@@ -149,7 +154,10 @@ async function createChart(model: any) {
     });
 }
 
-async function setupClipper(world: any) {
+async function setupClipper(world: OBC.World) {
+    const casters = components.get(OBC.Raycasters);
+    casters.get(world);
+
     const clipper = components.get(OBC.Clipper);
     let isClippingEnabled = false;
 
@@ -158,18 +166,21 @@ async function setupClipper(world: any) {
     ) as HTMLButtonElement;
     toggleClipper.addEventListener("click", () => {
         isClippingEnabled = isClippingEnabled ? false : true;
-        clipper.enabled = isClippingEnabled;
+        clipper.config.enabled = isClippingEnabled;
 
         showPopup(
             `Clipper is now ${isClippingEnabled ? "enabled" : "disabled"}`
         );
+
+        console.log(clipper);
     });
 
     const container = document.getElementById("container") as HTMLDivElement;
     container.ondblclick = () => {
+        console.log(isClippingEnabled);
         if (isClippingEnabled) {
             clipper.create(world);
-            clipper.visible = true;
+            clipper.config.visible = true;
         }
     };
 

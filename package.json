@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.41",
+    "@types/three": "^0.170.0",
     "typescript": "~5.6.2",
     "vite": "^6.0.1"
   },
