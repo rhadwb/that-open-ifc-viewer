@@ -137,3 +137,14 @@ button .material-icons {
 .popup.show {
     display: block; /* Show when triggered */
 }
+
+#tree {
+    padding: 15px;
+}
+
+#loading-indicator {
+    font-family: Arial, sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+    z-index: 9999;
+}

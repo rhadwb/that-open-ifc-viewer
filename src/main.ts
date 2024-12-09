@@ -5,11 +5,8 @@ import { createChart } from "../src/components/Chart";
 import { setupClipper } from "../src/components/Clipper";
 import { setupExploder } from "../src/components/Exploder";
 import { fetchIfcFile } from "../src/utils/fetchIfcFile";
-import {
-    lengthMeasurement,
-    setupSurfaceMeasure,
-    setupVolumeMeasure,
-} from "./components/Measurements";
+import { initTree } from "./components/ClassificationTree";
+import { showPopUp } from "./utils/showPopUp";
 
 const container = document.getElementById("container") as HTMLDivElement;
 const sidebar = document.getElementById("sidebar") as HTMLDivElement;
@@ -21,18 +18,47 @@ setupSidebarToggle(container, sidebar);
 async function main() {
     try {
         const ifcUrl =
-            "https://thatopen.github.io/engine_components/resources/small.ifc";
+            // "https://thatopen.github.io/engine_components/resources/small.ifc";
+            "../public/LTU_A-House_Plumbing.ifc";
 
         // Fetch and load IFC model
         const ifcBuffer = await fetchIfcFile(ifcUrl);
         const model = await loadModel(ifcBuffer, components, world);
 
         await createChart(components, model);
+        await initTree(components, model);
+
+        const toggleChart = document.getElementById(
+            "btn-chart"
+        ) as HTMLButtonElement;
+        const toggleTree = document.getElementById(
+            "btn-tree"
+        ) as HTMLButtonElement;
+
+        const chart = document.getElementById("chart") as HTMLCanvasElement;
+        const tree = document.getElementById("tree") as HTMLDivElement;
+
+        toggleChart.addEventListener("click", () => {
+            chart.style.display =
+                chart.style.display === "none" ? "block" : "none";
+            tree.style.display = "none";
+
+            const isChartEnabled = chart.style.display === "block";
+            showPopUp(
+                `Chart is now ${isChartEnabled ? "enabled" : "disabled"}`
+            );
+        });
+        toggleTree.addEventListener("click", () => {
+            tree.style.display =
+                tree.style.display === "none" ? "block" : "none";
+            chart.style.display = "none";
+
+            const isTreeEnabled = tree.style.display === "block";
+            showPopUp(`Tree is now ${isTreeEnabled ? "enabled" : "disabled"}`);
+        });
+
         await setupClipper(world, components, container);
         await setupExploder(components, model);
-        await lengthMeasurement(components, container, world);
-        setupSurfaceMeasure(components, container, world);
-        setupVolumeMeasure(components, container, world);
     } catch (error) {}
 }
 

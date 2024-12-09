@@ -19,6 +19,7 @@
     "@thatopen/components-front": "^2.4.2",
     "@thatopen/fragments": "^2.4.0",
     "@thatopen/ui": "^2.3.2",
+    "@thatopen/ui-obc": "^2.4.1",
     "chart.js": "^4.4.6",
     "three": "^0.170.0",
     "web-ifc": "^0.0.66"

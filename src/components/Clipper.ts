@@ -18,6 +18,11 @@ export const setupClipper = async (
     toggleClipper.addEventListener("click", () => {
         isClippingEnabled = isClippingEnabled ? false : true;
         clipper.enabled = isClippingEnabled;
+        clipper.visible = isClippingEnabled;
+
+        if (isClippingEnabled === false) {
+            clipper.deleteAll();
+        }
 
         showPopUp(
             `Clipper is now ${isClippingEnabled ? "enabled" : "disabled"}`

@@ -13,6 +13,7 @@ export const createChart = async (
     ) as HTMLDivElement;
     const chart = document.createElement("canvas");
     chart.id = "chart";
+    chart.style.display = "none";
     contentArea.appendChild(chart);
 
     const classifier = new Classifier(components);

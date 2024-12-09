@@ -32,5 +32,10 @@ export const initializeWorld = (container: HTMLDivElement) => {
     const grids = components.get(OBC.Grids);
     grids.create(world);
 
+    container.addEventListener("resize", () => {
+        rendererComponent.resize();
+        cameraComponent.updateAspect();
+    });
+
     return { components, world };
 };
