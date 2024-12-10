@@ -9,6 +9,7 @@ import { initTree } from "./components/ClassificationTree";
 import { showPopUp } from "./utils/showPopUp";
 import { Selector } from "./classes/Selector";
 import { setupSelector } from "./helpers/selector";
+import { setupMeasurement } from "./helpers/measurement";
 
 const container = document.getElementById("container") as HTMLDivElement;
 const sidebar = document.getElementById("sidebar") as HTMLDivElement;
@@ -20,8 +21,7 @@ setupSidebarToggle(container, sidebar);
 async function main() {
     try {
         const ifcUrl =
-            // "https://thatopen.github.io/engine_components/resources/small.ifc";
-            "../public/Ifc2x3_SampleCastle.ifc";
+            "https://thatopen.github.io/engine_components/resources/small.ifc";
 
         // Fetch and load IFC model
         const ifcBuffer = await fetchIfcFile(ifcUrl);
@@ -63,6 +63,7 @@ async function main() {
         await setupExploder(components, model);
 
         setupSelector(components, world);
+        setupMeasurement(components, world, container);
     } catch (error) {}
 }
 

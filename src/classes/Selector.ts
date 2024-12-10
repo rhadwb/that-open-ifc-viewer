@@ -140,6 +140,14 @@ export class Selector extends OBC.Component implements OBC.Createable {
         this.selection.splice(index, 1);
     };
 
+    deleteAll() {
+        for (const item of this.selection) {
+            item.mesh.removeFromParent();
+            item.mesh.geometry.dispose();
+        }
+        this.selection = [];
+    }
+
     /** {@link OBC.Createable.endCreation} */
     endCreation() {}
 
