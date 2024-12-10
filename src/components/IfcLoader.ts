@@ -1,6 +1,7 @@
 import * as OBC from "@thatopen/components";
 import { FragmentsGroup } from "@thatopen/fragments";
 import * as THREE from "three";
+import * as WEBIFC from "web-ifc";
 
 export async function loadModel(
     buffer: Uint8Array,
@@ -25,6 +26,17 @@ export async function loadModel(
         const fragmentLoader = components.get(OBC.IfcLoader);
         await fragmentLoader.setup();
 
+        const excludedCats = [
+            WEBIFC.IFCTENDONANCHOR,
+            WEBIFC.IFCREINFORCINGBAR,
+            WEBIFC.IFCREINFORCINGELEMENT,
+            WEBIFC.IFCSPACE,
+        ];
+
+        for (const cat of excludedCats) {
+            fragmentLoader.settings.excludedCategories.add(cat);
+        }
+
         fragmentLoader.settings.wasm = {
             path: "https://unpkg.com/web-ifc@0.0.59/",
             absolute: true,
@@ -41,7 +53,6 @@ export async function loadModel(
             }
         }
 
-        // Example event handler
         fragmentsManager.onFragmentsLoaded.add(() => {
             console.log("Fragments loaded!");
         });

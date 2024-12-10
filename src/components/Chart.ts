@@ -1,8 +1,8 @@
+import { Components } from "@thatopen/components";
+import { FragmentsGroup } from "@thatopen/fragments";
 import Chart from "chart.js/auto";
 import { Classifier } from "../classes/Classifier";
 import { colors } from "../utils/colors";
-import { FragmentsGroup } from "@thatopen/fragments";
-import { Components } from "@thatopen/components";
 
 export const createChart = async (
     components: Components,

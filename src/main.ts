@@ -7,6 +7,8 @@ import { setupExploder } from "../src/components/Exploder";
 import { fetchIfcFile } from "../src/utils/fetchIfcFile";
 import { initTree } from "./components/ClassificationTree";
 import { showPopUp } from "./utils/showPopUp";
+import { Selector } from "./classes/Selector";
+import { setupSelector } from "./helpers/selector";
 
 const container = document.getElementById("container") as HTMLDivElement;
 const sidebar = document.getElementById("sidebar") as HTMLDivElement;
@@ -19,7 +21,7 @@ async function main() {
     try {
         const ifcUrl =
             // "https://thatopen.github.io/engine_components/resources/small.ifc";
-            "../public/LTU_A-House_Plumbing.ifc";
+            "../public/Ifc2x3_SampleCastle.ifc";
 
         // Fetch and load IFC model
         const ifcBuffer = await fetchIfcFile(ifcUrl);
@@ -59,6 +61,8 @@ async function main() {
 
         await setupClipper(world, components, container);
         await setupExploder(components, model);
+
+        setupSelector(components, world);
     } catch (error) {}
 }
 
