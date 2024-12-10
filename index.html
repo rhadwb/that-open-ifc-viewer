@@ -9,6 +9,7 @@
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
         />
+
         <title>Vite + TS</title>
     </head>
     <body>
@@ -17,19 +18,30 @@
                 <button id="closer" title="Close Sidebar"></button>
             </div>
             <div id="button-area" class="button-area">
-                <button id="clipper">Clipper</button>
-                <button id="exploder">Exploder</button>
-                <button id="measurement">Measurement</button>
-                <button></button>
-                <button id="btn-chart">Chart</button>
-                <button id="btn-tree">Tree</button>
+                <button id="clipper">
+                    <span class="material-icons"> content_cut </span> Clipper
+                </button>
+                <button id="exploder">
+                    <span class="material-icons">expand</span> Exploder
+                </button>
+                <button id="measurement">
+                    <span class="material-icons">timeline</span> Measurement
+                </button>
+                <button id="btn-chart">
+                    <span class="material-icons"> donut_small </span> Chart
+                </button>
+                <button id="btn-tree">
+                    <span class="material-icons">account_tree</span>
+                    Tree
+                </button>
             </div>
+
             <div id="content-area"></div>
         </div>
         <div id="viewport">
             <div id="container" class="container" />
         </div>
-        <div id="popup" class="popup">thatopen.com</div>
+        <div id="popup" class="popup"></div>
         <script type="module" src="./src/main.ts"></script>
     </body>
 </html>

@@ -99,6 +99,13 @@ button .material-icons {
     cursor: pointer;
     border-radius: 10px;
     margin: 0;
+    gap: 5px;
+    display: flex;
+}
+
+#button-area .material-icons {
+    font-size: 18px; /* Adjust the font size of the icons */
+    vertical-align: middle; /* Aligns the icon vertically in the middle */
 }
 
 #button-area button:hover {
